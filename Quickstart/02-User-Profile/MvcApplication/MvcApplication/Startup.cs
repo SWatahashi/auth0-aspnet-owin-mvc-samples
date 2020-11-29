@@ -82,6 +82,14 @@ namespace MvcApplication
                             notification.HandleResponse();
                         }
                         return Task.FromResult(0);
+                    },
+                    AuthenticationFailed = async n =>
+                    {
+                        if(string.Equals(n.ProtocolMessage.Error, "access_denied", StringComparison.Ordinal))
+                        {
+                            n.HandleResponse();
+                            n.Response.Redirect("/");
+                        }
                     }
                 }
             });
